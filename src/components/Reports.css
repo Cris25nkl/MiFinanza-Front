@@ -1,0 +1,124 @@
+.reports-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.report-form-card,
+.report-preview-card {
+  background: #ffffff;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.report-form-card:hover,
+.report-preview-card:hover {
+  transform: translateY(-5px);
+}
+
+.report-form-card .form-control,
+.report-form-card .form-select {
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  padding: 10px 15px;
+  transition: all 0.3s ease;
+}
+
+.report-form-card .form-control:focus,
+.report-form-card .form-select:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25);
+}
+
+.export-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.export-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.export-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.export-btn.btn-primary {
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  border: none;
+}
+
+.export-btn.btn-success {
+  background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+  border: none;
+}
+
+.report-preview-card .table {
+  margin-bottom: 0;
+}
+
+.report-preview-card th {
+  border-top: none;
+  background-color: #f8f9fa;
+  color: #495057;
+  font-weight: 600;
+}
+
+.report-preview-card td {
+  vertical-align: middle;
+}
+
+.report-preview-card .badge {
+  padding: 8px 12px;
+  font-weight: 500;
+}
+
+/* Animation for table rows */
+.report-preview-card tbody tr {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading spinner styles */
+.spinner-border {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .export-buttons {
+    flex-direction: column;
+  }
+  
+  .report-preview-card {
+    margin: 0 -15px;
+    border-radius: 0;
+  }
+  
+  .report-preview-card .table {
+    font-size: 0.9rem;
+  }
+} 

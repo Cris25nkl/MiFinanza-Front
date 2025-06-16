@@ -1,0 +1,174 @@
+.dashboard-container {
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+  min-height: 100vh;
+}
+
+.balance-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.balance-card:hover {
+  transform: translateY(-5px);
+}
+
+.transaction-form-card,
+.transactions-card {
+  background: #ffffff;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  height: 100%;
+}
+
+.transaction-form-card {
+  position: sticky;
+  top: 20px;
+}
+
+.form-control-custom,
+.form-select-custom {
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  padding: 10px 15px;
+  transition: all 0.3s ease;
+}
+
+.form-control-custom:focus,
+.form-select-custom:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25);
+}
+
+.submit-btn {
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+}
+
+.statistics-btn {
+  background: linear-gradient(135deg, #6c5ce7 0%, #5b4bc4 100%);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.statistics-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+}
+
+.transactions-list {
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.transactions-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.transactions-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.transactions-list::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.transactions-list::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.transaction-item {
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background: #f8f9fa;
+  transition: all 0.3s ease;
+  animation: fadeIn 0.5s ease;
+}
+
+.transaction-item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.transaction-item.income {
+  border-left: 4px solid #28a745;
+}
+
+.transaction-item.expense {
+  border-left: 4px solid #dc3545;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilos para las pestañas */
+.custom-tabs {
+  background: #413737;
+  padding: 10px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.custom-tabs .nav-link {
+  color: #6c757d;
+  border-radius: 10px;
+  padding: 10px 20px;
+  margin: 0 5px;
+  transition: all 0.3s ease;
+}
+
+.custom-tabs .nav-link:hover {
+  background-color: #f8f9fa;
+  color: #4a90e2;
+}
+
+.custom-tabs .nav-link.active {
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+}
+
+/* Animaciones para las pestañas */
+.tab-content {
+  animation: fadeIn 0.5s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .transaction-form-card {
+    position: static;
+    margin-bottom: 20px;
+  }
+  
+  .custom-tabs .nav-link {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+} 

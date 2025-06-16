@@ -1,0 +1,135 @@
+.family-budget-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.family-members-card {
+  background: #ffffff;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.family-members-card:hover {
+  transform: translateY(-5px);
+}
+
+.family-members-card .table {
+  margin-bottom: 0;
+}
+
+.family-members-card th {
+  border-top: none;
+  background-color: #f8f9fa;
+  color: #495057;
+  font-weight: 600;
+}
+
+.family-members-card td {
+  vertical-align: middle;
+}
+
+.family-members-card .badge {
+  padding: 8px 12px;
+  font-weight: 500;
+}
+
+.family-members-card .btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.family-members-card .btn-outline-primary:hover {
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+}
+
+.family-members-card .btn-outline-danger:hover {
+  background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+  border-color: transparent;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+}
+
+/* Modal styles */
+.modal-content {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  border-bottom: 1px solid #e9ecef;
+  background: #f8f9fa;
+  border-radius: 15px 15px 0 0;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.modal-body .form-control,
+.modal-body .form-select {
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  padding: 10px 15px;
+  transition: all 0.3s ease;
+}
+
+.modal-body .form-control:focus,
+.modal-body .form-select:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25);
+}
+
+.modal-body .btn-primary {
+  background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.modal-body .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+}
+
+/* Animation for table rows */
+.family-members-card tbody tr {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .family-members-card {
+    margin: 0 -15px;
+    border-radius: 0;
+  }
+  
+  .family-members-card .table {
+    font-size: 0.9rem;
+  }
+  
+  .family-members-card .btn {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+  }
+} 

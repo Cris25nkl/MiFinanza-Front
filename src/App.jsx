@@ -1,79 +1,55 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './components/Login'
 import Register from './components/Register'
 import Dashboard from './components/Dashboard'
-import StatisticsPage from './components/StatisticsPage'
 import NavigationBar from './components/Navbar'
 import './App.css'
 
 function App() {
   const [user, setUser] = useState(null)
-  const [showRegister, setShowRegister] = useState(false)
-  const [showStatistics, setShowStatistics] = useState(false)
-  const [transactions, setTransactions] = useState([])
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem('user')
+    if (savedUser) {
+      setUser(JSON.parse(savedUser))
+    }
+  }, [])
 
   const handleLogin = (userData) => {
-    // Aquí normalmente harías una llamada a la API para verificar las credenciales
     setUser(userData)
-  }
-
-  const handleRegister = (userData) => {
-    // Aquí normalmente harías una llamada a la API para registrar al usuario
-    setUser(userData)
-  }
-
-  const handleShowRegister = () => {
-    setShowRegister(true)
-  }
-
-  const handleShowLogin = () => {
-    setShowRegister(false)
-  }
-
-  const handleShowStatistics = () => {
-    setShowStatistics(true)
-  }
-
-  const handleBackToDashboard = () => {
-    setShowStatistics(false)
-  }
-
-  const handleNewTransaction = (transaction) => {
-    setTransactions([...transactions, transaction])
+    localStorage.setItem('user', JSON.stringify(userData))
   }
 
   const handleLogout = () => {
     setUser(null)
-    setShowStatistics(false)
-    setTransactions([])
+    localStorage.removeItem('user')
   }
 
   return (
-    <div className="App">
-      {!user ? (
-        showRegister ? (
-          <Register onRegister={handleRegister} onShowLogin={handleShowLogin} />
-        ) : (
-          <Login onLogin={handleLogin} onShowRegister={handleShowRegister} />
-        )
-      ) : (
-        <>
-          <NavigationBar user={user} onLogout={handleLogout} />
-          {showStatistics ? (
-            <StatisticsPage 
-              transactions={transactions} 
-              onBack={handleBackToDashboard} 
-            />
-          ) : (
-            <Dashboard 
-              user={user} 
-              onShowStatistics={handleShowStatistics}
-              onNewTransaction={handleNewTransaction}
-            />
-          )}
-        </>
-      )}
-    </div>
+    <Router>
+      <div className="App">
+        {user && <NavigationBar user={user} onLogout={handleLogout} />}
+        <Routes>
+          <Route 
+            path="/login" 
+            element={user ? <Navigate to="/dashboard" /> : <Login onLogin={handleLogin} />} 
+          />
+          <Route 
+            path="/register" 
+            element={user ? <Navigate to="/dashboard" /> : <Register onRegister={handleLogin} />} 
+          />
+          <Route 
+            path="/dashboard" 
+            element={user ? <Dashboard user={user} /> : <Navigate to="/login" />} 
+          />
+          <Route 
+            path="/" 
+            element={<Navigate to={user ? "/dashboard" : "/login"} />} 
+          />
+        </Routes>
+      </div>
+    </Router>
   )
 }
 
