@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Form, Button, Card, Container, Image } from 'react-bootstrap';
-import { FaUser, FaLock, FaSignInAlt, FaUserPlus } from 'react-icons/fa';
+import { Form, Button, Card, Container, Image, Alert } from 'react-bootstrap';
+import { FaUser, FaLock, FaSignInAlt, FaUserPlus, FaExclamationTriangle } from 'react-icons/fa';
 import logo from './logo/logo.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import api from '../utils/axios';
@@ -12,7 +12,6 @@ const Login = ({ onLogin, onShowRegister }) => {
   });
 
   const [error, setError] = useState('');
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,6 +38,8 @@ const Login = ({ onLogin, onShowRegister }) => {
       ...formData,
       [e.target.name]: e.target.value
     });
+    // Limpiar el error cuando el usuario empiece a escribir
+    if (error) setError('');
   };
 
   return (
@@ -52,6 +53,12 @@ const Login = ({ onLogin, onShowRegister }) => {
               style={{ height: '80px' }}
             />
           </div>
+          {error && (
+            <Alert variant="danger" className="mb-3">
+              <FaExclamationTriangle className="me-2" />
+              {error}
+            </Alert>
+          )}
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
               <Form.Label>
