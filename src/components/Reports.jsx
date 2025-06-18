@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Card, Form, Button, Table, Spinner } from 'react-bootstrap';
 import { FaFileExport, FaFilePdf, FaFileExcel, FaChartBar } from 'react-icons/fa';
-import './Reports.css';
+import '../styles/Reports.css';
 
 const Reports = ({ transactions }) => {
   const [reportType, setReportType] = useState('monthly');

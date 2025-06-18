@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Card, Form, Button, ProgressBar, Row, Col } from 'react-bootstrap';
 import { FaUtensils, FaCar, FaHome, FaFilm, FaHeartbeat, FaGraduationCap, FaEllipsisH, FaPlus, FaTrash } from 'react-icons/fa';
-import './BudgetManager.css';
+import '../styles/BudgetManager.css';
 
 const CATEGORIAS_GASTOS = [
   { nombre: 'Alimentación', icono: <FaUtensils />, color: '#FF6B6B' },

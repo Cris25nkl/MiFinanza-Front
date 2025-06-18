@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Card, Form, Button, Table, Badge, Modal } from 'react-bootstrap';
 import { FaUsers, FaUserPlus, FaUserMinus, FaLock, FaUnlock } from 'react-icons/fa';
-import './FamilyBudget.css';
+import '../styles/FamilyBudget.css';
 
 const FamilyBudget = ({ transactions }) => {
   const [familyMembers, setFamilyMembers] = useState(() => {

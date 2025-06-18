@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Card, Form, Button, ProgressBar, Alert } from 'react-bootstrap';
 import { FaTrophy, FaPlus, FaTrash, FaBell } from 'react-icons/fa';
-import './FinancialGoals.css';
+import '../styles/FinancialGoals.css';
 
 const FinancialGoals = ({ balance, transactions }) => {
   const [goals, setGoals] = useState(() => {

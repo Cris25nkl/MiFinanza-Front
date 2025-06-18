@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { FaSignOutAlt, FaWallet } from 'react-icons/fa';
-import './Navbar.css';
+import '../styles/Navbar.css';
 
 function NavigationBar({ user, onLogout }) {
   return (

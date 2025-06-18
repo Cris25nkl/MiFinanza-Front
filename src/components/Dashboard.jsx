@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Container, Row, Col, Card, Form, Button, Nav, Tab } from 'react-bootstrap';
 import { FaDollarSign, FaChartBar, FaArrowUp, FaArrowDown, FaUtensils, FaCar, FaHome, FaFilm, FaHeartbeat, FaGraduationCap, FaEllipsisH, FaWallet, FaUsers, FaFileExport, FaBullseye } from 'react-icons/fa';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './Dashboard.css';
+import '../styles/Dashboard.css';
 import BudgetManager from './BudgetManager';
 import FinancialGoals from './FinancialGoals';
 import FamilyBudget from './FamilyBudget';
