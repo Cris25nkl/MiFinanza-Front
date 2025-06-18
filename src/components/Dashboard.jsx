@@ -50,12 +50,7 @@ const Dashboard = ({ user }) => {
   };
 
   if (showStatistics) {
-    return (
-      <StatisticsPage 
-        transactions={transactions} 
-        onBack={() => setShowStatistics(false)} 
-      />
-    );
+    return <StatisticsPage transactions={transactions} onBack={() => setShowStatistics(false)}/>;
   }
 
   return (
