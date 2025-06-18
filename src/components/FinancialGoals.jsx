@@ -19,6 +19,8 @@ const FinancialGoals = ({ balance, transactions }) => {
 
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [alertVariant, setAlertVariant] = useState('success');
+  const [amountToAdd, setAmountToAdd] = useState({});
 
   useEffect(() => {
     localStorage.setItem('financialGoals', JSON.stringify(goals));
@@ -36,6 +38,7 @@ const FinancialGoals = ({ balance, transactions }) => {
         category: 'general'
       });
       setAlertMessage('¡Meta financiera creada con éxito!');
+      setAlertVariant('success');
       setShowAlert(true);
       setTimeout(() => setShowAlert(false), 3000);
     }
@@ -46,16 +49,44 @@ const FinancialGoals = ({ balance, transactions }) => {
   };
 
   const handleUpdateProgress = (goalId, amount) => {
+    const amountToAdd = parseFloat(amount);
+    if (isNaN(amountToAdd) || amountToAdd <= 0) {
+      setAlertMessage('Por favor ingrese un monto válido');
+      setAlertVariant('danger');
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3000);
+      return;
+    }
+
+    if (amountToAdd > balance) {
+      setAlertMessage('Saldo insuficiente para realizar esta operación');
+      setAlertVariant('danger');
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3000);
+      return;
+    }
+
     setGoals(goals.map(goal => {
       if (goal.id === goalId) {
-        const newAmount = Math.min(
-          parseFloat(goal.currentAmount) + parseFloat(amount),
-          parseFloat(goal.targetAmount)
-        );
+        const currentAmount = parseFloat(goal.currentAmount);
+        const targetAmount = parseFloat(goal.targetAmount);
+        const newAmount = Math.min(currentAmount + amountToAdd, targetAmount);
+        
+        // Actualizar el saldo disponible
+        const remainingBalance = balance - amountToAdd;
+        
+        setAlertMessage(`¡Has agregado $${amountToAdd.toFixed(2)} a tu meta! Saldo restante: $${remainingBalance.toFixed(2)}`);
+        setAlertVariant('success');
+        setShowAlert(true);
+        setTimeout(() => setShowAlert(false), 3000);
+
         return { ...goal, currentAmount: newAmount.toString() };
       }
       return goal;
     }));
+
+    // Limpiar el campo de monto
+    setAmountToAdd({ ...amountToAdd, [goalId]: '' });
   };
 
   const calculateProgress = (current, target) => {
@@ -77,7 +108,7 @@ const FinancialGoals = ({ balance, transactions }) => {
       </h2>
 
       {showAlert && (
-        <Alert variant="success" onClose={() => setShowAlert(false)} dismissible>
+        <Alert variant={alertVariant} onClose={() => setShowAlert(false)} dismissible>
           {alertMessage}
         </Alert>
       )}
@@ -186,9 +217,14 @@ const FinancialGoals = ({ balance, transactions }) => {
                     placeholder="Monto a agregar"
                     min="0"
                     step="0.01"
-                    onChange={(e) => handleUpdateProgress(goal.id, e.target.value)}
+                    value={amountToAdd[goal.id] || ''}
+                    onChange={(e) => setAmountToAdd({ ...amountToAdd, [goal.id]: e.target.value })}
                   />
-                  <Button variant="success">
+                  <Button 
+                    variant="success"
+                    onClick={() => handleUpdateProgress(goal.id, amountToAdd[goal.id])}
+                    disabled={progress >= 100}
+                  >
                     <FaPlus />
                   </Button>
                 </div>
