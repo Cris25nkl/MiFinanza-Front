@@ -7,6 +7,7 @@ import BudgetManager from './BudgetManager';
 import FinancialGoals from './FinancialGoals';
 import FamilyBudget from './FamilyBudget';
 import Reports from './Reports';
+import StatisticsPage from './StatisticsPage';
 
 const CATEGORIAS_GASTOS = [
   { nombre: 'Alimentación', icono: <FaUtensils />, color: '#FF6B6B' },
@@ -18,9 +19,10 @@ const CATEGORIAS_GASTOS = [
   { nombre: 'Otros', icono: <FaEllipsisH />, color: '#95A5A6' }
 ];
 
-const Dashboard = ({ user, onShowStatistics }) => {
+const Dashboard = ({ user }) => {
   const [balance, setBalance] = useState(0);
   const [transactions, setTransactions] = useState([]);
+  const [showStatistics, setShowStatistics] = useState(false);
   const [newTransaction, setNewTransaction] = useState({
     type: 'ingreso',
     amount: '',
@@ -47,12 +49,21 @@ const Dashboard = ({ user, onShowStatistics }) => {
     setNewTransaction({ type: 'ingreso', amount: '', description: '', category: '' });
   };
 
+  if (showStatistics) {
+    return (
+      <StatisticsPage 
+        transactions={transactions} 
+        onBack={() => setShowStatistics(false)} 
+      />
+    );
+  }
+
   return (
     <Container fluid className="dashboard-container py-4 mt-5">
       <div className="d-flex justify-content-end mb-4">
         <Button 
           variant="primary" 
-          onClick={onShowStatistics}
+          onClick={() => setShowStatistics(true)}
           className="statistics-btn"
         >
           <FaChartBar className="me-2" />
