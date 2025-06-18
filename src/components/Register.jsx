@@ -3,6 +3,7 @@ import { Form, Button, Card, Container, Image } from 'react-bootstrap';
 import { FaUser, FaLock, FaUserPlus, FaSignInAlt, FaIdCard } from 'react-icons/fa';
 import logo from './logo/logo.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import api from '../utils/axios';
 
 const Register = ({ onRegister, onShowLogin }) => {
   const [formData, setFormData] = useState({
@@ -29,11 +30,25 @@ const Register = ({ onRegister, onShowLogin }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validateForm()) {
+    if (!validateForm()) return;
+
+    try {
       const { confirmPassword, ...registerData } = formData;
-      onRegister(registerData);
+  
+      const response = await api.post('/users/register', registerData);
+      const { access_token, user } = response.data;
+  
+      // Guarda en localStorage
+      localStorage.setItem('token', access_token);
+      localStorage.setItem('user', JSON.stringify(user));
+  
+      // Llama la función que actualiza el estado global
+      onRegister(user);
+    } catch (error) {
+      console.error('Error en el registro:', error);
+      alert('Error al registrarse. Verifica los datos o intenta más tarde.');
     }
   };
 

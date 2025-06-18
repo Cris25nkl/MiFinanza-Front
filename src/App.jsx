@@ -33,11 +33,18 @@ function App() {
         <Routes>
           <Route 
             path="/login" 
-            element={user ? <Navigate to="/dashboard" /> : <Login onLogin={handleLogin} />} 
-          />
+            element={
+              user 
+                ? <Navigate to="/dashboard" /> 
+                : <Login onLogin={handleLogin} onShowRegister={() => window.location.href = '/register'} /> 
+            }
+            />
           <Route 
             path="/register" 
-            element={user ? <Navigate to="/dashboard" /> : <Register onRegister={handleLogin} />} 
+            element={
+              user 
+                ? <Navigate to="/dashboard" /> 
+                : <Register onRegister={handleLogin} onShowLogin={() => window.location.href = 'login'} />} 
           />
           <Route 
             path="/dashboard" 

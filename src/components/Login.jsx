@@ -3,6 +3,7 @@ import { Form, Button, Card, Container, Image } from 'react-bootstrap';
 import { FaUser, FaLock, FaSignInAlt, FaUserPlus } from 'react-icons/fa';
 import logo from './logo/logo.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import api from '../utils/axios';
 
 const Login = ({ onLogin, onShowRegister }) => {
   const [formData, setFormData] = useState({
@@ -10,9 +11,27 @@ const Login = ({ onLogin, onShowRegister }) => {
     password: ''
   });
 
-  const handleSubmit = (e) => {
+  const [error, setError] = useState('');
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onLogin(formData);
+    setError('');
+
+    try {
+      const response = await api.post('/auth/login', formData);
+      const { access_token, user } = response.data;
+      console.log('Login exitoso:', response);
+
+      // Guardar token localmente (por ejemplo)
+      localStorage.setItem('token', access_token);
+
+      // Llamar a la función que maneja el login en App.jsx (o donde sea)
+      onLogin(user);
+    } catch (err) {
+      console.error('Error al iniciar sesión:', err);
+      setError('Usuario o contraseña incorrectos');
+    }
   };
 
   const handleChange = (e) => {
