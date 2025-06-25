@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Form, Button, Card, Container, Image, Alert } from 'react-bootstrap';
 import { FaUser, FaLock, FaSignInAlt, FaUserPlus, FaExclamationTriangle } from 'react-icons/fa';
-import logo from './logo/logo.png';
+import logo from './logo/newLogo.jpeg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import api from '../utils/axios';
 

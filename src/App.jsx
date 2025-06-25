@@ -15,6 +15,8 @@ function App() {
   const handleLogin = (userData) => {
     setUser(userData)
     localStorage.setItem('user', JSON.stringify(userData))
+    localStorage.setItem('token', userData.stringify.token) // Assuming userData has a token property;
+
   }
 
   const handleLogout = () => {
