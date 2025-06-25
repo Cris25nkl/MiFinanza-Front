@@ -8,6 +8,9 @@ import FinancialGoals from './FinancialGoals';
 import FamilyBudget from './FamilyBudget';
 import Reports from './Reports';
 import StatisticsPage from './StatisticsPage';
+import { createTransaction } from '../utils/axios'; // Importa la
+import { useEffect } from 'react';
+import { getTransactions } from '../utils/axios'; // Importa la función para obtener transacciones
 
 const CATEGORIAS_GASTOS = [
   { nombre: 'Alimentación', icono: <FaUtensils />, color: '#FF6B6B' },
@@ -18,6 +21,7 @@ const CATEGORIAS_GASTOS = [
   { nombre: 'Educación', icono: <FaGraduationCap />, color: '#9B59B6' },
   { nombre: 'Otros', icono: <FaEllipsisH />, color: '#95A5A6' }
 ];
+const CATEGORIA_INGRESO_ID = '685bc24b6b2fddd375636ca3';
 
 const Dashboard = ({ user }) => {
   const [balance, setBalance] = useState(0);
@@ -30,23 +34,91 @@ const Dashboard = ({ user }) => {
     category: ''
   });
 
-  const handleTransaction = (e) => {
-    e.preventDefault();
-    const amount = parseFloat(newTransaction.amount);
-    const updatedBalance = newTransaction.type === 'ingreso' 
-      ? balance + amount 
-      : balance - amount;
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      getTransactions(token)
+        .then(res => {
+          const txs = res.data.map(tx => ({
+            ...tx,
+            category: mapearNombreCategoria(tx.categoryId),
+          }));
+          setTransactions(txs);
 
-    setBalance(updatedBalance);
-    setTransactions([
-      ...transactions,
-      {
-        ...newTransaction,
-        amount,
-        date: new Date().toLocaleDateString()
-      }
-    ]);
-    setNewTransaction({ type: 'ingreso', amount: '', description: '', category: '' });
+          const nuevoBalance = txs.reduce((acc, tx) => {
+            return tx.type === 'ingreso'
+              ? acc + tx.amount
+              : acc - tx.amount;
+          }, 0);
+
+          setBalance(nuevoBalance);
+        });
+    }
+  }, []);
+
+  const categoriasNombrePorId = {
+    '685ba12c964a231833ddef76': 'Alimentación',
+    '681b940648435712620d1a75': 'Transporte',
+    '685ba19e964a231833ddef78': 'Vivienda',
+    '685ba1a7964a231833ddef7a': 'Entretenimiento',
+    '685ba1c3964a231833ddef7c': 'Salud',
+    '685ba1c9964a231833ddef7e': 'Educación',
+    '685ba1d0964a231833ddef80': 'Otros'
+  };
+  
+  const mapearNombreCategoria = (id) => {
+    return categoriasNombrePorId[id] || '';
+  };
+
+  const handleTransaction = async (e) => {
+    e.preventDefault();
+  
+    const amount = parseFloat(newTransaction.amount);
+    const token = localStorage.getItem('token');
+  
+    const payload = {
+      amount,
+      description: newTransaction.description,
+      type: newTransaction.type, // 'ingreso' o 'gasto'
+      categoryId: newTransaction.type === 'gasto'
+        ? await obtenerCategoryIdPorNombre(newTransaction.category)
+        : CATEGORIA_INGRESO_ID, // usar categoría "Ingreso"
+    };
+  
+    try {
+      const response = await createTransaction(payload, token);
+      const saved = response.data;
+  
+      const updatedBalance = newTransaction.type === 'ingreso'
+        ? balance + saved.amount
+        : balance - saved.amount;
+  
+      setBalance(updatedBalance);
+      setTransactions([...transactions, {
+        ...saved,
+        type: newTransaction.type,
+        category: newTransaction.category || 'Ingreso',
+      }]);
+  
+      setNewTransaction({ type: 'ingreso', amount: '', description: '', category: '' });
+    } catch (error) {
+      console.error('Error al guardar transacción:', error);
+      alert('Error al guardar la transacción');
+    }
+  };
+
+  const categoriasMapeadas = {
+    'Alimentación': '685ba12c964a231833ddef76',
+    'Transporte': '681b940648435712620d1a75',
+    'Vivienda': '685ba19e964a231833ddef78',
+    'Entretenimiento': '685ba1a7964a231833ddef7a',
+    'Salud': '685ba1c3964a231833ddef7c',
+    'Educación': '685ba1c9964a231833ddef7e',
+    'Otros': '685ba1d0964a231833ddef80'
+  };
+  
+  const obtenerCategoryIdPorNombre = async (nombre) => {
+    return categoriasMapeadas[nombre];
   };
 
   if (showStatistics) {
@@ -229,7 +301,7 @@ const Dashboard = ({ user }) => {
                               </strong>
                               <br />
                               <small>{transaction.date}</small>
-                              {transaction.type === 'gasto' && transaction.category && (
+                              {transaction.type === 'gasto' && transaction.category && transaction.category !== 'Ingreso' && (
                                 <>
                                   <br />
                                   <small className="text-muted">
